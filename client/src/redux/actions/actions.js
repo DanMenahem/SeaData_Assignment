@@ -4,7 +4,6 @@ import businessApiServies from "../../services/businessApiServies";
 export const getData = (dayRange) => async (dispatch) => {
   try {
     dispatch({ type: constants.LOADING_START });
-
     const ordersByDateData = await businessApiServies.getNumOfOrder(dayRange);
     const incomeByDateData = await businessApiServies.getIncomeByDate(dayRange);
     const profitByDateData = await businessApiServies.getProfitByDate(dayRange);
@@ -14,6 +13,7 @@ export const getData = (dayRange) => async (dispatch) => {
     );
     console.log(profitPresentageData);
     const payload = {
+      dayRange,
       ordersByDateData,
       incomeByDateData,
       profitByDateData,

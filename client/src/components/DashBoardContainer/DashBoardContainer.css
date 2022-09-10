@@ -10,17 +10,5 @@
     padding: 0 20px 0 20px;
 }
 
-.button-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    width: auto;
-    height: 50px;
-    margin: 50px 0 50px 0 ;
-}
 
-.loading{
-    display: flex;
-    margin-left: 20px;
-}
+

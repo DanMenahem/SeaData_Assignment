@@ -41,38 +41,70 @@ const TopPageCharts = () => {
       },
     },
   };
+  const dayRange = state.dayRange;
 
-  return (
-    <div className="top-chart-container">
-      <div className="first-chart">
-        <h4>Day Orders </h4>
-        <h1 className="big-number">{state.dayOrders}₪</h1>
-        <Line
-          className="line-chart"
-          data={state.ordersByDateData}
-          options={lineChartOptions}
-        />
+  if (dayRange === 1) {
+    return (
+      <div className="top-chart-container">
+        <div className="first-chart2">
+          <p className="top-chart-title">Day Orders </p>
+          <h1 className="big-number2">
+            {new Intl.NumberFormat().format(state.dayOrders)}
+          </h1>
+        </div>
+        <div className="second-chart2">
+          <p className="top-chart-title">Day Incomes</p>
+          <h1 className="big-number2">
+            {new Intl.NumberFormat().format(state.dayIncome)}₪
+          </h1>
+        </div>
+        <div className="third-chart2">
+          <p className="top-chart-title">Day Profits</p>
+          <h1 className="big-number2">
+            {new Intl.NumberFormat().format(state.dayProfit)}₪
+          </h1>
+        </div>
       </div>
-      <div className="second-chart">
-        <h4>Day Incomes</h4>
-        <h1 className="big-number">{state.dayIncome}₪</h1>
-        <Line
-          className="line-chart"
-          data={state.incomeByDateData}
-          options={lineChartOptions}
-        />
+    );
+  } else {
+    return (
+      <div className="top-chart-container">
+        <div className="first-chart">
+          <p className="top-chart-title">Day Orders </p>
+          <h1 className="big-number">
+            {new Intl.NumberFormat().format(state.dayOrders)}
+          </h1>
+          <Line
+            className="line-chart"
+            data={state.ordersByDateData}
+            options={lineChartOptions}
+          />
+        </div>
+        <div className="second-chart">
+          <p className="top-chart-title">Day Incomes</p>
+          <h1 className="big-number">
+            {new Intl.NumberFormat().format(state.dayIncome)}₪
+          </h1>
+          <Line
+            className="line-chart"
+            data={state.incomeByDateData}
+            options={lineChartOptions}
+          />
+        </div>
+        <div className="third-chart">
+          <p className="top-chart-title">Day Profits</p>
+          <h1 className="big-number">
+            {new Intl.NumberFormat().format(state.dayProfit)}₪
+          </h1>
+          <Line
+            className="line-chart"
+            data={state.profitByDateData}
+            options={lineChartOptions}
+          />
+        </div>
       </div>
-      <div className="third-chart">
-        <h4>Day Profits</h4>
-        <h1 className="big-number">{state.dayProfit}₪</h1>
-        <Line
-          className="line-chart"
-          data={state.profitByDateData}
-          options={lineChartOptions}
-        />
-      </div>
-    </div>
-  );
+    );
+  }
 };
 
 export default TopPageCharts;

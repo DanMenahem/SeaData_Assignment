@@ -3,6 +3,7 @@ import constants from "../constants";
 const initalState = {
   loading: false,
   error: null,
+  dayRange: 7,
   dayOrders: 0,
   dayIncome: 0,
   dayProfit: 0,
@@ -85,10 +86,8 @@ const orderPerDayReducer = (state = initalState, action) => {
     case constants.GET_ORDER_PER_DAY_SUCCESS:
       return {
         ...state,
-        dayOrders: AvergeData(
-          payload.ordersByDateData,
-          payload.ordersByDateData.length
-        ),
+        dayRange: payload.dayRange,
+        dayOrders: AvergeData(payload.ordersByDateData, payload.dayRange),
         ordersByDateData: {
           labels: payload.ordersByDateData.map((item) => item.date),
           datasets: [
@@ -103,10 +102,7 @@ const orderPerDayReducer = (state = initalState, action) => {
     case constants.GET_INCOME_PER_DAY_SUCCESS:
       return {
         ...state,
-        dayIncome: AvergeData(
-          payload.incomeByDateData,
-          payload.incomeByDateData.length
-        ),
+        dayIncome: AvergeData(payload.incomeByDateData, payload.dayRange),
         incomeByDateData: {
           labels: payload.incomeByDateData.map((item) => item.date),
           datasets: [
@@ -121,10 +117,7 @@ const orderPerDayReducer = (state = initalState, action) => {
     case constants.GET_PROFIT_PER_DAY_SUCCESS:
       return {
         ...state,
-        dayProfit: AvergeData(
-          payload.profitByDateData,
-          payload.profitByDateData.length
-        ),
+        dayProfit: AvergeData(payload.profitByDateData, payload.dayRange),
         profitByDateData: {
           labels: payload.profitByDateData.map((item) => item.date),
           datasets: [
@@ -191,7 +184,7 @@ const totalProfitPresentageData = (arr) => {
 };
 
 const getPrecentage = (arr) => {
-  return arr[1] / arr[0];
+  return ((arr[1] / arr[0]) * 100).toFixed(2);
 };
 
 export default orderPerDayReducer;

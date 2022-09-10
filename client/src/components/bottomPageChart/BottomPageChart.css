@@ -1,7 +1,7 @@
 .bottom-chart-container {
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: top;
     justify-content: center;
     width: 100%;
     height: 100%;
@@ -15,19 +15,61 @@
 }
 
 .bottom-table{
-    width: 500px;
-    height: 250px;
-    
+    width: 250px !important;
+    height: 400px;
+    overflow-y: auto !important;
 }
+
+.bottom-table::-webkit-scrollbar {
+    display: none;
+}
+
+
+.bottom-table {
+  -ms-overflow-style: none; 
+  scrollbar-width: none;
+}
+
 .bar-chart {
-    width: 500px;
-    height: 250px;
+    width: 550px;
+    height: 275px;
+    margin-top: 30px;
   }
+
+.doughnut-chart{
+    width: 250px;
+    height: 250px;
+}
 
 .bottom-bar-chart-container{
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: space-between;
-    background-color: white;
+    height: 350px;
   }
+
+.bottom-doughnut-chart-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-left: 1px solid #e0e0e0;
+    padding-left: 40px;
+    margin-left: 50px;
+    height: 350px;
+}
+
+  .bottom-table-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 350px;
+    margin-left: 60px;
+  }
+
+  .bottom-chart-title{
+    font-size: 20px
+  }
+
+.sc-evZas , .eUeqdG{
+font: 25px;
+}
