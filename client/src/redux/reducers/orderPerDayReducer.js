@@ -3,41 +3,11 @@ import constants from "../constants";
 const initalState = {
   loading: false,
   error: null,
-  chartOptions: {
-    responsive: true,
-    plugins: {
-      legend: {
-        display: false,
-      },
-    },
-    elements: {
-      point: {
-        radius: 0,
-      },
-    },
-    scales: {
-      x: {
-        ticks: {
-          display: false,
-        },
-        grid: {
-          drawBorder: false,
-          display: false,
-        },
-      },
-      y: {
-        ticks: {
-          display: false,
-          beginAtZero: true,
-        },
-        grid: {
-          drawBorder: false,
-          display: false,
-        },
-      },
-    },
-  },
-  data: {
+  dayOrders: 0,
+  dayIncome: 0,
+  dayProfit: 0,
+  presentageProfit: 0,
+  ordersByDateData: {
     labels: [],
     datasets: [
       {
@@ -73,91 +43,155 @@ const initalState = {
       },
     ],
   },
+  topTenItemsData: {
+    labels: [],
+    datasets: [
+      {
+        fill: true,
+        data: [],
+        backgroundColor: "rgba(0,143,248,0.3)",
+      },
+    ],
+  },
+  tableData: [],
+  profitPresentageData: {
+    labels: ["Expenses", "Profits"],
+    datasets: [
+      {
+        label: "# of Votes",
+        data: [],
+        backgroundColor: ["rgba(255, 99, 132, 0.2)", "rgba(54, 162, 235, 0.2)"],
+        borderColor: ["rgba(255, 99, 132, 1)", "rgba(54, 162, 235, 1)"],
+        borderWidth: 1,
+      },
+    ],
+  },
 };
 
 const orderPerDayReducer = (state = initalState, action) => {
   const { type, payload } = action;
 
   switch (type) {
-    case constants.GET_ORDER_PER_DAY_AWAITING:
+    case constants.LOADING_START:
       return {
         ...state,
         loading: true,
+      };
+    case constants.LOADING_END:
+      return {
+        ...state,
+        loading: false,
       };
     case constants.GET_ORDER_PER_DAY_SUCCESS:
       return {
         ...state,
-        loading: false,
-        data: {
-          labels: payload.map((item) => item.date),
+        dayOrders: AvergeData(
+          payload.ordersByDateData,
+          payload.ordersByDateData.length
+        ),
+        ordersByDateData: {
+          labels: payload.ordersByDateData.map((item) => item.date),
           datasets: [
             {
-              ...state.data.datasets[0],
-              data: payload.map((item) => item.value),
+              ...state.ordersByDateData.datasets[0],
+              data: payload.ordersByDateData.map((item) => item.value),
             },
           ],
         },
       };
-    case constants.GET_ORDER_PER_DAY_ERROR:
-      return {
-        ...state,
-        loading: false,
-        error: payload,
-      };
-    case constants.GET_INCOME_PER_DAY_AWAITING:
-      return {
-        ...state,
-        loading: true,
-      };
+
     case constants.GET_INCOME_PER_DAY_SUCCESS:
       return {
         ...state,
-        loading: false,
+        dayIncome: AvergeData(
+          payload.incomeByDateData,
+          payload.incomeByDateData.length
+        ),
         incomeByDateData: {
-          labels: payload.map((item) => item.date),
+          labels: payload.incomeByDateData.map((item) => item.date),
           datasets: [
             {
               ...state.incomeByDateData.datasets[0],
-              data: payload.map((item) => item.value),
+              data: payload.incomeByDateData.map((item) => item.value),
             },
           ],
         },
       };
-    case constants.GET_INCOME_PER_DAY_ERROR:
-      return {
-        ...state,
-        loading: false,
-        error: payload,
-      };
 
-    case constants.GET_PROFIT_PER_DAY_AWAITING:
-      return {
-        ...state,
-        loading: true,
-      };
     case constants.GET_PROFIT_PER_DAY_SUCCESS:
       return {
         ...state,
-        loading: false,
+        dayProfit: AvergeData(
+          payload.profitByDateData,
+          payload.profitByDateData.length
+        ),
         profitByDateData: {
-          labels: payload.map((item) => item.date),
+          labels: payload.profitByDateData.map((item) => item.date),
           datasets: [
             {
               ...state.profitByDateData.datasets[0],
-              data: payload.map((item) => item.value),
+              data: payload.profitByDateData.map((item) => item.value),
             },
           ],
         },
       };
-    case constants.GET_PROFIT_PER_DAY_ERROR:
+    case constants.GET_TOP_TEN_ITEMS_SUCCESS:
       return {
         ...state,
-        loading: false,
-        error: payload,
+        tableData: payload.topTenItemsData,
+        topTenItemsData: {
+          labels: payload.topTenItemsData.map((item) => item.name),
+          datasets: [
+            {
+              ...state.topTenItemsData.datasets[0],
+              data: payload.topTenItemsData.map((item) => item.value),
+            },
+          ],
+        },
       };
+    case constants.GET_PROFIT_PRESENTAGE_SUCCESS:
+      return {
+        ...state,
+        presentageProfit: getPrecentage(
+          totalProfitPresentageData(payload.profitPresentageData)
+        ),
+        profitPresentageData: {
+          ...state.profitPresentageData,
+          datasets: [
+            {
+              ...state.profitPresentageData.datasets[0],
+              data: totalProfitPresentageData(payload.profitPresentageData),
+            },
+          ],
+        },
+      };
+
     default:
       return state;
   }
+};
+
+//return the average value by date range
+const AvergeData = (arr, days) => {
+  const sum = arr.reduce((accumulator, object) => {
+    return accumulator + object.value;
+  }, 0);
+  if (days === 1) return Math.round(sum / days, 2);
+  return (sum / days).toFixed(2);
+};
+
+const totalProfitPresentageData = (arr) => {
+  const expense = arr.reduce((accumulator, object) => {
+    return accumulator + object.expense;
+  }, 0);
+  const profit = arr.reduce((accumulator, object) => {
+    return accumulator + object.profit;
+  }, 0);
+  return [expense, profit];
+};
+
+const getPrecentage = (arr) => {
+  return arr[1] / arr[0];
 };
 
 export default orderPerDayReducer;

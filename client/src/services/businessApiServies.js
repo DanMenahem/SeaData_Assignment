@@ -22,7 +22,7 @@ async function getIncomeByDate(dayRange) {
   }
 }
 
-export async function getProfiteByDate(dayRange) {
+async function getProfitByDate(dayRange) {
   try {
     const { data } = await axios.get("/totalDayProfit", {
       params: { day: dayRange },
@@ -33,4 +33,32 @@ export async function getProfiteByDate(dayRange) {
   }
 }
 
-export default { getNumOfOrder, getIncomeByDate, getProfiteByDate };
+async function getTopTenItems(dayRange) {
+  try {
+    const { data } = await axios.get("/mostSoldItems", {
+      params: { day: dayRange },
+    });
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function getProfitPrecentage(dayRange) {
+  try {
+    const { data } = await axios.get("/profitPrecentage", {
+      params: { day: dayRange },
+    });
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export default {
+  getNumOfOrder,
+  getIncomeByDate,
+  getProfitByDate,
+  getTopTenItems,
+  getProfitPrecentage,
+};

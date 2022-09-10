@@ -7,34 +7,68 @@ ChartJS.register(...registerables);
 
 const TopPageCharts = () => {
   const state = useSelector((state) => state.orderPerDayReducer);
+  const lineChartOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        display: false,
+      },
+    },
+    elements: {
+      point: {
+        radius: 0,
+      },
+    },
+    scales: {
+      x: {
+        ticks: {
+          display: false,
+        },
+        grid: {
+          drawBorder: false,
+          display: false,
+        },
+      },
+      y: {
+        ticks: {
+          display: false,
+          beginAtZero: true,
+        },
+        grid: {
+          drawBorder: false,
+          display: false,
+        },
+      },
+    },
+  };
 
   return (
     <div className="top-chart-container">
       <div className="first-chart">
-        <h4>title</h4>
-        <h1 className="big-number">2135</h1>
+        <h4>Day Orders </h4>
+        <h1 className="big-number">{state.dayOrders}₪</h1>
         <Line
           className="line-chart"
-          data={state.data}
-          options={state.chartOptions}
+          data={state.ordersByDateData}
+          options={lineChartOptions}
         />
       </div>
       <div className="second-chart">
-        <h4>title</h4>
-        <h1 className="big-number">510</h1>
+        <h4>Day Incomes</h4>
+        <h1 className="big-number">{state.dayIncome}₪</h1>
         <Line
           className="line-chart"
           data={state.incomeByDateData}
-          options={state.chartOptions}
+          options={lineChartOptions}
         />
       </div>
       <div className="third-chart">
-        <h4>title</h4>
-        <h1 className="big-number">38</h1>
+        <h4>Day Profits</h4>
+        <h1 className="big-number">{state.dayProfit}₪</h1>
         <Line
           className="line-chart"
           data={state.profitByDateData}
-          options={state.chartOptions}
+          options={lineChartOptions}
         />
       </div>
     </div>

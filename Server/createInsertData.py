@@ -24,7 +24,6 @@ if __name__ == "__main__":
         except Exception as e:
             print(e)
 
-
     # return the total income per day and the day in a day range
 try:
     dayRange = datetime.now().date() - timedelta(days=30)
@@ -71,6 +70,21 @@ except Exception as e:
     #     print(result)
     # except Exception as e:
     #     print(e)
+
+    # retrun total expense and profit per day and the day in a day range
+    try:
+        dayRange = datetime.now().date() - timedelta(days=30)
+        result = session.query(
+            func.sum(OrderItem.amount * Item.cost).label("expense"),
+            func.sum(OrderItem.amount *
+                     (Item.price - Item.cost)).label("profit"),
+            Order.date
+        ).join(OrderItem).join(Item).filter(
+            Order.date >= dayRange
+        ).group_by(Order.date).all()
+        print(result)
+    except Exception as e:
+        print(e)
 
     # ------------------------------------------------------------------------------------------------------------------------------
 

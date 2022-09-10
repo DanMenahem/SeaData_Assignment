@@ -9,10 +9,10 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:laci909090@localhost:5432/SeaData_Assignment'
 db.init_app(app)
 
-# with app.app_context():
-#     db.drop_all()
-#     db.create_all()
-#     insertRandomData()
+with app.app_context():
+    db.drop_all()
+    db.create_all()
+    insertRandomData()
 
 
 @ app.route('/')
@@ -46,6 +46,13 @@ def mostSoldItem():
     arg = request.args
     result = queries.mostSoldItems(int(arg['day']))
     return jsonify(result)
+
+
+@ app.route('/profitPrecentage', methods=['GET'])
+def profitPrecentage():
+    arg = request.args
+    result = queries.profitPrecentage(int(arg['day']))
+    return result
 
 
 if __name__ == '__main__':

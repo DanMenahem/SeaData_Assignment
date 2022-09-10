@@ -14,18 +14,20 @@ def genGender():
 
 def insertRandomData():
     try:
+        itemsCatalog = []
         # create items catalog
         for i in range(1000):
             name = ''.join(random.choices(
                 string.ascii_uppercase + string.digits, k=10))
-            price = round(random.uniform(5.0, 2000), 1)
-            cost = round(price * random.uniform(0.10, 0.90), 2)
-            db.session.add(Item(name, price, cost))
-            db.session.commit()
+            price = round(random.uniform(5.0, 500), 2)
+            cost = round(price * random.uniform(0.55, 0.9), 1)
+            itemToDb = Item(name, price, cost)
+            itemsCatalog.append(itemToDb)
+            db.session.add(itemToDb)
+        db.session.commit()
 
         # create orders
-        for i in range(2000):
-            print(i)
+        for i in range(20000):
             date = datetime.now().date() - timedelta(days=random.randint(0, 30))
             customer_full_name = names.get_full_name(gender=genGender())
             order = Order(date, customer_full_name)
@@ -34,17 +36,12 @@ def insertRandomData():
                 randomNumber = random.randint(1, 1000)
                 while randomNumber in randomItem:
                     randomNumber = random.randint(1, 1000)
-                # while True:
-                #     if randomNumber not in item:
-                #         break
-                #     randomNumber = random.randint(1, 1000)
                 randomItem.append(randomNumber)
-                item = db.session.query(Item).filter(
-                    Item.id == randomNumber).first()
+                item = itemsCatalog[randomNumber - 1]
                 order.order_items.append(
                     OrderItem(item, random.randint(1, 10)))
             db.session.add(order)
-            db.session.commit()
+        db.session.commit()
         return True
     except Exception as e:
         print(e)

@@ -1,0 +1,33 @@
+.bottom-chart-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    border-top: 1px solid #e0e0e0;
+    padding: 20px;
+  }
+
+.bottom-table-container{
+    margin-left: 40px;
+}
+
+.bottom-table{
+    width: 500px;
+    height: 250px;
+    
+}
+.bar-chart {
+    width: 500px;
+    height: 250px;
+  }
+
+.bottom-bar-chart-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    background-color: white;
+  }

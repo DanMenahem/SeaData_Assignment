@@ -5,7 +5,7 @@ from shared.db import db
 from models import Order, Item, OrderItem
 
 
-def rowAsDictForDate(result):
+def rowAsDictForDateValue(result):
     array = []
     for row in result:
         queryRes = {}
@@ -15,12 +15,23 @@ def rowAsDictForDate(result):
     return array
 
 
-def rowAsDictForStr(result):
+def rowAsDictForStrValue(result):
     array = []
     for row in result:
         queryRes = {}
-        queryRes["item"] = row[0]
+        queryRes["name"] = row[0]
         queryRes["value"] = row[1]
+        array.append(queryRes)
+    return array
+
+
+def rowAsDictForProfitPrecentage(result):
+    array = []
+    for row in result:
+        queryRes = {}
+        queryRes["date"] = row[0].strftime("%Y-%m-%d")
+        queryRes["expense"] = row[1]
+        queryRes["profit"] = row[2]
         array.append(queryRes)
     return array
 
@@ -32,7 +43,7 @@ def ordersByDate(day=30):
         dayRange = datetime.now().date() - timedelta(days=day)
         result = db.session.query(func.count(Order.id), Order.date).filter(
             and_(Order.date > dayRange)).group_by(Order.date).order_by(Order.date).all()
-        return rowAsDictForDate(result)
+        return rowAsDictForDateValue(result)
     except Exception as e:
         return e
 
@@ -44,7 +55,7 @@ def totalDayIncome(day=30):
         dayRange = datetime.now().date() - timedelta(days=day)
         result = db.session.query(func.sum(OrderItem.amount * Item.price), Order.date).join(
             OrderItem).join(Item).filter(and_(Order.date > dayRange)).group_by(Order.date).order_by(Order.date).all()
-        return rowAsDictForDate(result)
+        return rowAsDictForDateValue(result)
     except Exception as e:
         return e
 
@@ -55,7 +66,7 @@ def totalDayProfit(day=30):
         dayRange = datetime.now().date() - timedelta(days=day)
         result = db.session.query(func.sum(OrderItem.amount * (Item.price - Item.cost)), Order.date).join(
             OrderItem).join(Item).filter(and_(Order.date > dayRange)).group_by(Order.date).order_by(Order.date).order_by(Order.date).all()
-        return rowAsDictForDate(result)
+        return rowAsDictForDateValue(result)
     except Exception as e:
         return e
 
@@ -72,6 +83,23 @@ def mostSoldItems(day=30):
         ).group_by(Item.name).order_by(
             func.sum(OrderItem.amount).desc()
         ).limit(10).all()
-        return rowAsDictForStr(result)
+        return rowAsDictForStrValue(result)
+    except Exception as e:
+        return e
+
+
+# retrun total expense and profit per day and the day in a day range
+def profitPrecentage(day=30):
+    try:
+        dayRange = datetime.now().date() - timedelta(days=day)
+        result = db.session.query(
+            Order.date,
+            func.sum(OrderItem.amount * Item.cost).label("expense"),
+            func.sum(OrderItem.amount *
+                     (Item.price - Item.cost)).label("profit")
+        ).join(OrderItem).join(Item).filter(
+            Order.date > dayRange
+        ).group_by(Order.date).order_by(Order.date).all()
+        return rowAsDictForProfitPrecentage(result)
     except Exception as e:
         return e
