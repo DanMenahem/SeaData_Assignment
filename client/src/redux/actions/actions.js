@@ -40,7 +40,7 @@ export const getData = (dayRange) => async (dispatch) => {
     dispatch({ type: constants.LOADING_END });
   } catch (error) {
     dispatch({ type: constants.LOADING_END });
-    dispatch({ type: constants.EROOR, payload: error.message });
+    dispatch({ type: constants.ERROR, payload: error.message });
   }
 };
 

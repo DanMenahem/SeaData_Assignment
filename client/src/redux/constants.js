@@ -12,7 +12,7 @@ const constants = {
   LOADING_START: "LOADING_START",
   LOADING_END: "LOADING_END",
 
-  EROOR: "EROOR",
+  ERROR: "ERROR",
 };
 
 export default constants;

@@ -83,6 +83,11 @@ const orderPerDayReducer = (state = initalState, action) => {
         ...state,
         loading: false,
       };
+    case constants.ERROR:
+      return {
+        ...state,
+        error: payload,
+      };
     case constants.GET_ORDER_PER_DAY_SUCCESS:
       return {
         ...state,
