@@ -109,9 +109,7 @@ const BottomPageChart = () => {
       </div>
       <div className="bottom-doughnut-chart-container">
         <p className="bottom-chart-title">Profit Percentage</p>
-        <h1 className="big-number">
-          {new Intl.NumberFormat().format(state.presentageProfit)}%
-        </h1>
+        <h1 className="big-number">{state.presentageProfit}%</h1>
         <Doughnut
           className="doughnut-chart"
           data={state.profitPresentageData}

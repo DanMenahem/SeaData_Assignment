@@ -9,10 +9,10 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:laci909090@localhost:5432/SeaData_Assignment'
 db.init_app(app)
 
-with app.app_context():
-    db.drop_all()
-    db.create_all()
-    insertRandomData()
+# with app.app_context():
+#     db.drop_all()
+#     db.create_all()
+#     insertRandomData()
 
 
 @ app.route('/')
