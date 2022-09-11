@@ -6,7 +6,7 @@ import queries
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:laci909090@localhost:5432/SeaData_Assignment'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://dan:userpassword@34.154.36.175:5432/postgres'
 db.init_app(app)
 
 # with app.app_context():
