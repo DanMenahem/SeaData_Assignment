@@ -1,10 +1,12 @@
 from flask import Flask, jsonify, request
+from flask_cors import CORS
 from shared.db import db
 from insertToDataBase import insertRandomData
 from queries import getProfitPrecentage, getMostSoldItems, getTotalDayProfit, getTotalDayIncome, getOrdersByDate
 
 
 app = Flask(__name__)
+CORS(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://dan:userpassword@34.154.36.175:5432/postgres'
 db.init_app(app)
 
