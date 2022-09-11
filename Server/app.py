@@ -18,7 +18,7 @@ db.init_app(app)
 
 @ app.route('/')
 def hello():
-    return 'This is the Server of my Sea Data Assignment'
+    return 'Hello And Welcome To My Sea Data Assignment'
 
 
 @ app.route('/ordersByDate', methods=['GET'])
