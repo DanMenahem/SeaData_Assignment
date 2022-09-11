@@ -1,0 +1,4 @@
+Flask==2.2.2
+flask_sqlalchemy==2.5.1
+names==0.3.0
+SQLAlchemy==1.4.41
