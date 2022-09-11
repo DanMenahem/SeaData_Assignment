@@ -38,7 +38,7 @@ def rowAsDictForProfitPrecentage(result):
 # return the number of order per day and the day in a day range order by date
 
 
-def ordersByDate(day=30):
+def getOrdersByDate(day=30):
     try:
         dayRange = datetime.now().date() - timedelta(days=day)
         result = db.session.query(func.count(Order.id), Order.date).filter(
@@ -50,7 +50,7 @@ def ordersByDate(day=30):
 # return the total income per day and the day in a day range
 
 
-def totalDayIncome(day=30):
+def getTotalDayIncome(day=30):
     try:
         dayRange = datetime.now().date() - timedelta(days=day)
         result = db.session.query(func.sum(OrderItem.amount * Item.price), Order.date).join(
@@ -61,7 +61,7 @@ def totalDayIncome(day=30):
 
 
 # return the total profit per day and the day in a day range
-def totalDayProfit(day=30):
+def getTotalDayProfit(day=30):
     try:
         dayRange = datetime.now().date() - timedelta(days=day)
         result = db.session.query(func.sum(OrderItem.amount * (Item.price - Item.cost)), Order.date).join(
@@ -73,7 +73,7 @@ def totalDayProfit(day=30):
 # return the the 10 most sold items in the last 30 days, by name and amount
 
 
-def mostSoldItems(day=30):
+def getMostSoldItems(day=30):
     try:
         dayRange = datetime.now().date() - timedelta(days=day)
         result = db.session.query(
@@ -89,7 +89,7 @@ def mostSoldItems(day=30):
 
 
 # retrun total expense and profit per day and the day in a day range
-def profitPrecentage(day=30):
+def getProfitPrecentage(day=30):
     try:
         dayRange = datetime.now().date() - timedelta(days=day)
         result = db.session.query(

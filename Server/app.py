@@ -2,7 +2,7 @@ from flask import Flask, jsonify, request
 from sqlalchemy import func, and_
 from shared.db import db
 from insertToDataBase import insertRandomData
-from queries import queries
+from queries import getProfitPrecentage, getMostSoldItems, getTotalDayProfit, getTotalDayIncome, getOrdersByDate
 
 
 app = Flask(__name__)
@@ -23,7 +23,7 @@ def hello():
 @ app.route('/ordersByDate', methods=['GET'])
 def ordersByDate():
     arg = request.args
-    result = queries.ordersByDate(int(arg['day']))
+    result = getOrdersByDate(int(arg['day']))
     print(result)
     return jsonify(result)
 
@@ -31,28 +31,28 @@ def ordersByDate():
 @ app.route('/totalDayIncome', methods=['GET'])
 def totalDayIncome():
     arg = request.args
-    result = queries.totalDayIncome(int(arg['day']))
+    result = getTotalDayIncome(int(arg['day']))
     return jsonify(result)
 
 
 @ app.route('/totalDayProfit', methods=['GET'])
 def totalDayProfit():
     arg = request.args
-    result = queries.totalDayProfit(int(arg['day']))
+    result = getTotalDayProfit(int(arg['day']))
     return jsonify(result)
 
 
 @ app.route('/mostSoldItems', methods=['GET'])
 def mostSoldItem():
     arg = request.args
-    result = queries.mostSoldItems(int(arg['day']))
+    result = getMostSoldItems(int(arg['day']))
     return jsonify(result)
 
 
 @ app.route('/profitPrecentage', methods=['GET'])
 def profitPrecentage():
     arg = request.args
-    result = queries.profitPrecentage(int(arg['day']))
+    result = getProfitPrecentage(int(arg['day']))
     return result
 
 
