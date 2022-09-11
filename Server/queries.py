@@ -1,4 +1,3 @@
-from array import array
 from sqlalchemy import func, and_
 from datetime import datetime, timedelta
 from shared.db import db

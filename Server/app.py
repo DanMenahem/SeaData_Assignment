@@ -1,5 +1,4 @@
 from flask import Flask, jsonify, request
-from sqlalchemy import func, and_
 from shared.db import db
 from insertToDataBase import insertRandomData
 from queries import getProfitPrecentage, getMostSoldItems, getTotalDayProfit, getTotalDayIncome, getOrdersByDate
