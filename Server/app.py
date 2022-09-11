@@ -24,6 +24,7 @@ def hello():
 def ordersByDate():
     arg = request.args
     result = queries.ordersByDate(int(arg['day']))
+    print(result)
     return jsonify(result)
 
 
