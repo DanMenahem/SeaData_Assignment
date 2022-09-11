@@ -2,7 +2,7 @@ from flask import Flask, jsonify, request
 from sqlalchemy import func, and_
 from shared.db import db
 from insertToDataBase import insertRandomData
-import queries
+from queries import queries
 
 
 app = Flask(__name__)
