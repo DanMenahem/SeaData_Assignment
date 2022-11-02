@@ -27,8 +27,8 @@ def insertRandomData():
         db.session.commit()
 
         # create orders
-        for i in range(20000):
-            date = datetime.now().date() + timedelta(days=random.randint(-30, 10))
+        for i in range(2000):
+            date = datetime.now().date() + timedelta(days=random.randint(-20, 20))
             customer_full_name = names.get_full_name(gender=genGender())
             order = Order(date, customer_full_name)
             randomItem = []

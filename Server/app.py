@@ -7,13 +7,13 @@ from queries import getProfitPrecentage, getMostSoldItems, getTotalDayProfit, ge
 
 app = Flask(__name__)
 CORS(app)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://dan:userpassword@34.154.36.175:5432/postgres'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://ovkccssvkxffaq:df53350e633e7b7ccd21463088212f847ed29c95760eed5e04dbd240a513d0c0@ec2-54-228-125-183.eu-west-1.compute.amazonaws.com:5432/d6c31qe72s4ev7'
 db.init_app(app)
 
-# with app.app_context():
-#     db.drop_all()
-#     db.create_all()
-#     insertRandomData()
+with app.app_context():
+    db.drop_all()
+    db.create_all()
+    insertRandomData()
 
 
 @ app.route('/')
